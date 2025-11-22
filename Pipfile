@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pyside6 = "==6.10.1"
+pyside6-addons = "==6.10.1"
+pyside6-essentials = "==6.10.1"
+pyinstaller = "==6.16.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.13"

@@ -1,0 +1,7 @@
+# ClipOmina
+
+
+# Dependencies 
+
+poetry add PySide6==6.10.1 PySide6-Addons==6.10.1 PySide6-Essentials==6.10.1
+pipenv install PySide6==6.10.1 PySide6-Addons==6.10.1 PySide6-Essentials==6.10.1
