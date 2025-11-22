@@ -1,4 +1,5 @@
 from PySide6.QtGui import QIcon
+from src.utils.misc import BUTTON_ICONS
 from PySide6.QtCore import Qt, Signal, QSize
 from src.components.theme_manager import theme_manager, get_menu_item_style
 from PySide6.QtWidgets import (QWidget, QPushButton, QMenu, QWidgetAction, QLabel, QHBoxLayout)
@@ -55,7 +56,7 @@ class ColorDropdownButton(QPushButton):
         self.current_theme = 'DEFAULT'
         self.menu:QMenu = QMenu(self)
         
-        self.setIcon(QIcon("src/assets/icons/color.svg"))
+        self.setIcon(QIcon(BUTTON_ICONS["color"]))
         self.setFixedSize(QSize(40,32))
         self.setIconSize(QSize(24,24))
         self.setObjectName("headerButton")

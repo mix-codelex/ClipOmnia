@@ -5,7 +5,7 @@ from PySide6.QtWidgets import ( QPushButton )
 from src.components.theme_manager import theme_manager, get_tool_button_style
 
 class ToolButton(QPushButton):
-    def __init__(self, svg_file="src/assets/icons/maximize.svg",  callback=None, parent=None):
+    def __init__(self, svg_file, callback=None, parent=None):
         super().__init__(parent)
 
         self.callback = callback   # store the function so parent can access it

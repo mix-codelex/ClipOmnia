@@ -1,4 +1,5 @@
 from PySide6.QtGui import QIcon
+from src.utils.misc import BUTTON_ICONS
 from PySide6.QtCore import Qt, QSize, Signal
 from src.components.cliboard_item_struct import ClipboardItemStruct
 from src.components.theme_manager import theme_manager, get_custom_item_widget_style
@@ -66,7 +67,7 @@ class CustomItemWidget(QWidget):
 
         self.clear_button = NoPropagateButton()
         self.clear_button.setCursor(Qt.PointingHandCursor)
-        self.clear_button.setIcon(QIcon("src/assets/icons/trash.svg"))
+        self.clear_button.setIcon(QIcon(BUTTON_ICONS["trash"]))
         self.clear_button.setFixedSize(36, 32)
         self.clear_button.setIconSize(QSize(20, 20))
         self.clear_button.setObjectName("headerButton")
@@ -76,7 +77,7 @@ class CustomItemWidget(QWidget):
         main_layout.addLayout(content_layout)
 
         self.apply_theme()
-        # 🔥 Listen for theme changes
+        # Listen for theme changes
         theme_manager.theme_changed.connect(self.apply_theme)
 
 

@@ -2,6 +2,7 @@ import sys
 from PySide6.QtGui import QIcon
 from typing import List, Optional
 from PySide6.QtCore import Qt, QSize
+from src.utils.misc import BUTTON_ICONS
 from src.components.theme_manager import theme_manager, get_card_style
 from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QDialog, QMainWindow)
 
@@ -174,7 +175,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         # Add search bar
         btn = QPushButton()
-        btn.setIcon(QIcon("src/assets/icons/camera.svg"))
+        btn.setIcon(QIcon(BUTTON_ICONS["camera"]))
         btn.setFixedSize(QSize(40,32))
         btn.setIconSize(QSize(24,24))
         btn.setObjectName("headerButton")

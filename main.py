@@ -1,7 +1,7 @@
 import sys
 from PySide6.QtGui import QIcon
 from src.components.card import Card
-from src.components.CONTANTS import THEMES
+from src.utils.misc import BUTTON_ICONS
 from src.components.preview import Preview
 from PySide6.QtCore import Qt, QSize,  QTimer
 from src.clipboard_manager import ClipboardManager
@@ -53,20 +53,17 @@ class AppLayout(QMainWindow):
         # ===== clipbaord Card Widget =====
         self.list_widget: ClipboardList = ClipboardList()
         self.list_widget.itemClicked.connect(self.paste_item_action)
-        # tools = [
-        #     ToolButton(svg_file="src/assets/icons/trash.svg", callback=lambda: None),
-        # ]
         self.clipbaord_card = Card( title="Clipboard", content_widget=self.list_widget, contentsMargins=(0,0,0,0))
         # Add clipbaord_card to the content_area
         content_layout.addWidget(self.clipbaord_card)
         
         # ===== Preview Card Widget =====
         self.preview = Preview()
-        menu_drop_down = MenuDropdownButton(menu_items=list(self.preview.transformations.keys()), icon=QIcon("src/assets/icons/tool.svg"))
+        menu_drop_down = MenuDropdownButton(menu_items=list(self.preview.transformations.keys()), icon=QIcon(BUTTON_ICONS["tool"]))
         menu_drop_down.menu_item_changed.connect(self.handle_tool_menu_item_action)
         tools = [
             menu_drop_down,
-            ToolButton(svg_file="src/assets/icons/maximize.svg", callback=lambda: self.preview_card.toggle_maximize())
+            ToolButton(svg_file=BUTTON_ICONS["maximize"], callback=lambda: self.preview_card.toggle_maximize())
         ]
         self.preview_card = Card(content_widget=self.preview, title="Preview", tools=tools)
         # Add preview to the content_area
@@ -221,7 +218,7 @@ class AppLayout(QMainWindow):
         header_layout.addWidget(self.color_btn)
 
         clear_all_btn = QPushButton()
-        clear_all_btn.setIcon(QIcon("src/assets/icons/trash.svg"))
+        clear_all_btn.setIcon(QIcon(BUTTON_ICONS["trash"]))
         clear_all_btn.setFixedSize(QSize(40,32))
         clear_all_btn.setIconSize(QSize(24,24))
         clear_all_btn.setObjectName("headerButton")
@@ -248,7 +245,7 @@ class AppLayout(QMainWindow):
         
         # Footer buttons
         settings_btn = QPushButton()
-        settings_btn.setIcon(QIcon("src/assets/icons/settings.svg"))
+        settings_btn.setIcon(QIcon(BUTTON_ICONS["settings"]))
         settings_btn.setObjectName("footerButton")
         settings_btn.setFixedSize(QSize(40,32))
         settings_btn.setIconSize(QSize(24,24))

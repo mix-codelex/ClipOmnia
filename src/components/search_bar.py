@@ -1,6 +1,7 @@
 import sys
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QIcon
+from src.utils.misc import BUTTON_ICONS
 from src.components.theme_manager import theme_manager, get_search_bar_style
 from PySide6.QtWidgets import (QWidget,  QHBoxLayout, QPushButton, QLineEdit, QMainWindow, QApplication)
 
@@ -27,7 +28,7 @@ class SearchBar(QWidget):
         
         # Search icon label
         self.icon_label = QPushButton()
-        self.icon_label.setIcon(QIcon("src/assets/icons/search.svg"))
+        self.icon_label.setIcon(QIcon(BUTTON_ICONS["search"]))
         self.icon_label.setObjectName("searchIcon")
         self.icon_label.setFixedWidth(40)
         self.icon_label.setFixedHeight(40)
