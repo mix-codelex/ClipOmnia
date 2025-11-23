@@ -101,7 +101,7 @@ class ClipboardManager(QObject):
 
 
     def _add_to_history(self, item: ClipboardItemStruct):
-        self.history.append(item)
+        self.history.insert(0, item)
         if len(self.history) > self.max_items:
             self.history.pop(0)
 

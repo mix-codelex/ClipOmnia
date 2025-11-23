@@ -26,6 +26,7 @@
   * [x] Add preview tools: capitalize / lowercase / uppercase
   * [x] Style confirmation buttons & unify theme between menus
   * [x] Fix status messages
+  * [x] Add new item on top of the list not end
 
 ### **Refactoring & Architecture**
 

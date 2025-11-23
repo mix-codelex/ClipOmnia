@@ -316,7 +316,7 @@ class SysTray:
 
     def on_activate(self, reason):
         if reason in (QSystemTrayIcon.Trigger, QSystemTrayIcon.DoubleClick):
-            self.window.activate()
+            self.window.activate(reason)
 
     def quit_app(self):
         self.window.clipboard_manager.stop()
