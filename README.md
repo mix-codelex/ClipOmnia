@@ -70,8 +70,6 @@ After building, you can launch ClipOmina using:
 python main.py
 ```
 
-*(Replace `main.py` with the actual entry-point script if different.)*
-
 ## Usage
 
 Once ClipOmina is running:
