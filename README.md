@@ -10,6 +10,8 @@
 * **Search & Filter:** Easily search through your clipboard history.
 * **Lightweight:** Minimal dependencies and optimized performance.
 
+![alt text](image.png)
+
 ## Dependencies
 
 To run ClipOmina, you need the following Python packages:
