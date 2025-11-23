@@ -21,7 +21,7 @@ RUN pip3 install --upgrade pip && \
 
 # Build the PyInstaller executable
 # RUN pyinstaller main.spec
-RUN pyinstaller --onefile --windowed --icon=src/assets/icon.png --add-data src/assets:src/assets main.py
+RUN pyinstaller --onefile --windowed --icon=src/assets/icon.png --add-data src/assets:src/assets --hidden-import pynput.keyboard._xorg --hidden-import pynput.mouse._xorg main.py
 
 # Verify executable was created
 RUN ls -lah /app/dist/

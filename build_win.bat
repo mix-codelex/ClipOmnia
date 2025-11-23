@@ -9,7 +9,7 @@ echo ================================================
 echo   Running PyInstaller
 echo ================================================
 echo.
-
+REM --hidden-import "pynput.keyboard._win32" --hidden-import "pynput.mouse._win32"
 pyinstaller --onefile --windowed ^
     --icon=src\assets\icon.ico ^
     --add-data "src\assets;src\assets" ^

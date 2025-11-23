@@ -1,7 +1,8 @@
 import sys
+from pynput import keyboard
 from src.components.card import Card
 from src.utils.misc import BUTTON_ICONS
-from PySide6.QtGui import QIcon, QAction
+from PySide6.QtGui import QIcon
 from src.components.preview import Preview
 from PySide6.QtCore import Qt, QSize,  QTimer
 from src.clipboard_manager import ClipboardManager
@@ -301,7 +302,7 @@ class SysTray:
         self.tray.setIcon(QIcon(BUTTON_ICONS["tray_icon"]))
         self.tray.setVisible(True)
         self.tray.showMessage(
-            "Hi!",
+            "[ClipOmnia]",
             "ClipOmnia is running 📋",
             QSystemTrayIcon.Information,
             2000
@@ -313,6 +314,25 @@ class SysTray:
 
         self.tray.setContextMenu(self.menu)
         self.tray.activated.connect(self.on_activate)
+        # Win+V hotkey
+        def for_canonical(f):
+            return lambda k: f(self.listener.canonical(k))
+        self.hotkey = keyboard.HotKey(
+            keyboard.HotKey.parse(self.get_hot_key()),
+            self.open_app
+        )
+        self.listener = keyboard.Listener(
+            on_press=for_canonical(self.hotkey.press),
+            on_release=for_canonical(self.hotkey.release)
+        )
+        self.listener.start()
+
+    def get_hot_key(self):
+        if sys.platform == "darwin":  # macOS
+            HOTKEY = "<cmd>+<alt>+h"
+        else:  # Windows/Linux
+            HOTKEY = "<ctrl>+<alt>+h"
+        return HOTKEY
 
     def on_activate(self, reason):
         if reason in (QSystemTrayIcon.Trigger, QSystemTrayIcon.DoubleClick):
