@@ -1,7 +1,7 @@
 import sys
-from PySide6.QtGui import QIcon
 from src.components.card import Card
 from src.utils.misc import BUTTON_ICONS
+from PySide6.QtGui import QIcon, QAction
 from src.components.preview import Preview
 from PySide6.QtCore import Qt, QSize,  QTimer
 from src.clipboard_manager import ClipboardManager
@@ -12,8 +12,8 @@ from src.components.menu_button import MenuDropdownButton
 from src.components.color_button import ColorDropdownButton
 from src.components.theme_manager import theme_manager, get_app_style
 from src.components.cliboard_item_struct import ClipboardItemStruct
-from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
-                               QHBoxLayout, QLabel, QPushButton,
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QMenu,
+                               QHBoxLayout, QLabel, QPushButton, QSystemTrayIcon, 
                                QListWidgetItem, QMessageBox)
 
 
@@ -22,6 +22,8 @@ class AppLayout(QMainWindow):
         super().__init__()
         self.setWindowTitle("Clipboard manager")
         self.setFixedSize(550, 750)   # prevent growing
+        # TODO: implement load for loading saved history 
+        self.load() # Load up the text from file.
         # self.setGeometry(100, 100, 900, 700)
         
         # Create central widget and main layout
@@ -40,7 +42,6 @@ class AppLayout(QMainWindow):
         self.search_term = ""
         self.search_bar = SearchBar("Search...")
         self.search_bar.search_input.textChanged.connect(self.handle_search_action)
-        self.search_bar.search_input.returnPressed.connect(self.handle_search_action)
         # self.search_bar = self.create_search_bar()
         main_layout.addWidget(self.search_bar)
 
@@ -100,17 +101,17 @@ class AppLayout(QMainWindow):
         self.preview.apply_text_transform(action)
 
 
-    def handle_search_action(self, search_text: str = None):
+    def handle_search_action(self, search_text: str):
         if not search_text: # Handle enter & textchanged in same function
-            search_text = self.search_term
-
-        self.search_term = search_text
+            self.update_history_display()
+        
         self.list_widget.clear_items()
         for item in self.clipboard_manager.history:
-            desc_text:str = item.search_text
+            desc_text: str = item.search_text
             if search_text.lower() in desc_text.lower():
                 widget = self.list_widget.add_item(item)
                 widget.delete_clicked.connect(self.on_clipboard_item_delete)
+
 
     def on_clipboard_update(self, text):
         self.update_history_display()
@@ -166,6 +167,10 @@ class AppLayout(QMainWindow):
             self.preview.swap_to_text(item_clip.content)
 
     def closeEvent(self, event):
+        event.ignore()
+        self.hide()
+
+    def _closeEvent(self, event):
         self.clipboard_manager.stop()
         super().closeEvent(event)
 
@@ -244,14 +249,14 @@ class AppLayout(QMainWindow):
         footer_layout.addStretch()
         
         # Footer buttons
-        settings_btn = QPushButton()
-        settings_btn.setIcon(QIcon(BUTTON_ICONS["settings"]))
-        settings_btn.setObjectName("footerButton")
-        settings_btn.setFixedSize(QSize(40,32))
-        settings_btn.setIconSize(QSize(24,24))
-        settings_btn.setCursor(Qt.PointingHandCursor)
-        settings_btn.clicked.connect(self.open_settings)
-        footer_layout.addWidget(settings_btn)
+        # settings_btn = QPushButton()
+        # settings_btn.setIcon(QIcon(BUTTON_ICONS["settings"]))
+        # settings_btn.setObjectName("footerButton")
+        # settings_btn.setFixedSize(QSize(40,32))
+        # settings_btn.setIconSize(QSize(24,24))
+        # settings_btn.setCursor(Qt.PointingHandCursor)
+        # settings_btn.clicked.connect(self.open_settings)
+        # footer_layout.addWidget(settings_btn)
         
         return footer
     
@@ -267,8 +272,70 @@ class AppLayout(QMainWindow):
         self._status_timer.stop()
         self._status_timer.start(5_000)  # 5 seconds
 
+
+    def load(self):
+        # Load clipboard history
+        def example():
+            with open("notes.txt", "r") as f:
+                text = f.read()
+            self.editor.setPlainText(text)
+
+    def save(self):
+        # Save clipboard history
+        def example():
+            text = self.editor.toPlainText()
+            with open("notes.txt", "w") as f:
+                f.write(text)
+
+    def activate(self, reason):
+        if reason == QSystemTrayIcon.Trigger: # Icon clicked.
+            self.show()
+
+
+class SysTray:
+    def __init__(self,qapp: QApplication, window: AppLayout):
+        self.window = window
+        self.qapp = qapp
+
+        self.tray = QSystemTrayIcon()
+        self.tray.setIcon(QIcon(BUTTON_ICONS["tray_icon"]))
+        self.tray.setVisible(True)
+        self.tray.showMessage(
+            "Hi!",
+            "ClipOmnia is running 📋",
+            QSystemTrayIcon.Information,
+            2000
+        )
+
+        self.menu = QMenu(parent=window)
+        self.menu.addAction("Open", self.open_app)
+        self.menu.addAction("Quit", self.quit_app)
+
+        self.tray.setContextMenu(self.menu)
+        self.tray.activated.connect(self.on_activate)
+
+    def on_activate(self, reason):
+        if reason in (QSystemTrayIcon.Trigger, QSystemTrayIcon.DoubleClick):
+            self.window.activate()
+
+    def quit_app(self):
+        self.window.clipboard_manager.stop()
+        self.qapp.quit()
+        
+    def open_app(self):
+        self.window.show()
+        self.window.raise_()
+        self.window.activateWindow()
+        print("Open clicked")
+
+
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    qapp = QApplication(sys.argv)
+    qapp.setQuitOnLastWindowClosed(False)
+
     window = AppLayout()
-    window.show()
-    sys.exit(app.exec())
+    # Sys_tray
+    sys_tray = SysTray(qapp=qapp, window=window)
+    # on quit
+    qapp.aboutToQuit.connect(window.save)
+    sys.exit(qapp.exec())

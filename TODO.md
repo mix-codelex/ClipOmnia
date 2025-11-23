@@ -1,26 +1,50 @@
-# Todo
+# **TODO**
 
-- [x] Finalize card top with custom button (maximaze)
-- [x] maybe on top of maximaze, add a toolbox so that we can
-- [x] Finalize preview and move it to main.py
-- [x] improve CustomItemWidget design with timestamp, previe, action button,
-- [x] run text_component_widgets
-- [x] Finalize list and move it to main.py
-- [x] Improve background and finalize all the design
-- [x] Create a clipboardList that take a list of CustomItemWidget and show them,
-- [x] Palletes button in settings to change color, dark mode, light mode, default
-- [-] Add simple/MVP-level clipboard behavior and behavior , Update CustomItemWidget with function add_item, remove_item, delete_all, get_item, etc.
-  - [x] delete all & copy again to test that it is really deleted
-  - [x] delete per item
-  - [x] On list_item_clik - update clipboard + update preview context
-  - [x] Fix preview stylings
-  - [x] Handle urls/read file contetent just keep title? or just the references? Bugs
-  - [x] make simple search works
-  - [x] Change cursor on button just like the color_chooser btn
-  - [x] Prebiewbutton tools -  capitalize, lower, uppcase
-  - [x] Style confirmation buttons & mske menu consistent in theme
-  - [x] Fix status messages
-- [x] Quick Refactor  add variable, comments etc.
-- [ ] Makeit cross-platform installable with one-click
-- [ ] settings button  (api for ocr + vision understand model("summarize what this image represents"), topic modeling text ), saved secrets in settings allways there
-(- [ ] Create a tree of all the software and the widgets dependency graph)
+### **Core UI & Layout**
+
+* [x] Finalize card header with custom maximize button
+* [x] Add optional toolbox above the maximize button
+* [x] Finalize preview component and move it to `main.py`
+* [x] Improve `CustomItemWidget` design (timestamp, preview, action buttons)
+* [x] Run `text_component_widgets`
+* [x] Finalize list component and move it to `main.py`
+* [x] Improve background styling and finalize overall design
+* [x] Create `ClipboardList` that accepts a list of `CustomItemWidget` instances and displays them
+* [x] Add palette selector in settings (dark mode / light mode / default)
+
+### **Clipboard Behavior (MVP)**
+
+* [x] Add simple/MVP-level clipboard behavior; update `CustomItemWidget` with basic item operations:
+
+  * [x] `delete_all` + verify clipboard resets properly
+  * [x] Per-item delete
+  * [x] On list item click → update system clipboard + update preview context
+  * [x] Fix preview styling
+  * [x] Handle URLs / file content — show title or reference only
+  * [x] Make simple search work
+  * [x] Change cursor on buttons (matching color_chooser cursor style)
+  * [x] Add preview tools: capitalize / lowercase / uppercase
+  * [x] Style confirmation buttons & unify theme between menus
+  * [x] Fix status messages
+
+### **Refactoring & Architecture**
+
+* [x] Quick refactor (variables, comments, cleanups)
+* [x] Make app cross-platform and one-click installable
+
+### **Bug Fixes**
+
+* [x] Fix bug where images disappear after deleting search text (remove Enter handler, simplify logic)
+* [x] Add system tray integration
+
+### **Persistence**
+
+* [-] Database? Currently data resets on each restart (in-memory only)
+
+### **Settings & Integrations**
+
+* [ ] Add Settings buttingd:
+  * [ ] API inputs for OCR
+  * [ ] Vision/understanding model (“summarize what this image represents”)
+  * [ ] Topic modeling for text
+  * [ ] Saved secrets that persist in settings & does not show on clipboard list

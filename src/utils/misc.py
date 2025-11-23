@@ -18,5 +18,6 @@ BUTTON_ICONS = {
     "camera": resource_path("src/assets/icons/camera.svg"),
     "color": resource_path("src/assets/icons/color.svg"),
     "search": resource_path("src/assets/icons/search.svg"),
+    "tray_icon": resource_path("src/assets/icon.png"),
 }
 
