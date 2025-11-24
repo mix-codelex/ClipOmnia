@@ -12,7 +12,7 @@ class ClipboardManager(QObject):
 
         self.history: List[ClipboardItemStruct] = []
         self._ignored_digests: Set[str] = set()
-        self.max_items = 30
+        self.max_items = 50
         self._last_digest = None
 
         self._timer = QTimer(self)
@@ -103,6 +103,6 @@ class ClipboardManager(QObject):
     def _add_to_history(self, item: ClipboardItemStruct):
         self.history.insert(0, item)
         if len(self.history) > self.max_items:
-            self.history.pop(0)
+            self.history.pop(len(self.history) - 1)
 
 

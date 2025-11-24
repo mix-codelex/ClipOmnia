@@ -37,6 +37,7 @@
 
 * [x] Fix bug where images disappear after deleting search text (remove Enter handler, simplify logic)
 * [x] Add system tray integration
+* [x] Fix bugs when #Q > 30
 
 ### **Persistence**
 
