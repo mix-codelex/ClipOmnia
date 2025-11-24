@@ -45,8 +45,8 @@
 
 ### **Settings & Integrations**
 
-* [ ] Add Settings buttingd:
-  * [ ] API inputs for OCR
-  * [ ] Vision/understanding model (“summarize what this image represents”)
-  * [ ] Topic modeling for text
+* [-] Add Settings button:
+  * [x] API inputs for OCR
+  * [ ] Use API to send content.type=image to OCR for clipboard
+  * [ ] Set API endpoints in settings
   * [ ] Saved secrets that persist in settings & does not show on clipboard list
