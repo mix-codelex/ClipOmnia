@@ -70,6 +70,26 @@ After building, you can launch ClipOmina using:
 python main.py
 ```
 
+### 4. Simple OCR api
+
+```bash
+version: '3.8'
+
+services:
+  ocr-api:
+    image: mulongobent/clipomnia-ocr:latest
+    container_name: tesseract-ocr-api
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+```
+
 ## Usage
 
 Once ClipOmina is running:
