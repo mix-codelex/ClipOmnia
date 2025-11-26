@@ -37,13 +37,13 @@ class Preview(QWidget):
         outer_layout.addWidget(self.content_area)
 
         # Preview Bottom text
-        self.preview_bottom_text = QLabel("News article text/nature image")
-        self.preview_bottom_text.setObjectName("previewBottomText")
-        self.preview_bottom_text.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
-        self.preview_bottom_text.setMinimumHeight(25)
-        self.preview_bottom_text.setContentsMargins(5, 0, 0, 0)
-        # self.set_text("Preview content...")
-        outer_layout.addWidget(self.preview_bottom_text)
+        # self.preview_bottom_text = QLabel("News article text/nature image")
+        # self.preview_bottom_text.setObjectName("previewBottomText")
+        # self.preview_bottom_text.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+        # self.preview_bottom_text.setMinimumHeight(25)
+        # self.preview_bottom_text.setContentsMargins(5, 0, 0, 0)
+        # # self.set_text("Preview content...")
+        # outer_layout.addWidget(self.preview_bottom_text)
 
         self.apply_theme()
         # Listen for theme changes

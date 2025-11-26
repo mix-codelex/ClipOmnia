@@ -1,13 +1,14 @@
 import sys
 from pynput import keyboard
 from src.components.card import Card
-from src.utils.misc import BUTTON_ICONS
+from src.utils.misc import BUTTON_ICONS, str_to_bool
 from PySide6.QtGui import QIcon
 from src.components.preview import Preview
 from PySide6.QtCore import Qt, QSize,  QTimer
-from src.clipboard_manager import ClipboardManager
+from src.settings_window import SettingsWindow
 from src.components.search_bar import SearchBar
 from src.components.tool_button import ToolButton
+from src.clipboard_manager import ClipboardManager
 from src.components.clipboard_list import ClipboardList
 from src.components.menu_button import MenuDropdownButton
 from src.components.color_button import ColorDropdownButton
@@ -77,7 +78,13 @@ class AppLayout(QMainWindow):
         # ===== FOOTER =====
         footer = self.create_footer()
         main_layout.addWidget(footer)
+
+
+        # ========== Settings ==========
+        self.app_settings = SettingsWindow(user_theme="DEFAULT")
         
+        self.USER_THEME = self.app_settings.settings.value("user_theme")
+        theme_manager.set_theme(self.USER_THEME)
         # Apply stylesheet
         self.apply_theme()
         # Listen for theme changes
@@ -157,10 +164,13 @@ class AppLayout(QMainWindow):
         self.update_history_display()
         # Update selection
         self.list_widget.setCurrentItem(self.list_widget.item(0))
+        is_ocr_mode = str_to_bool(self.app_settings.settings.value("ocr_mode"))
 
         if item_clip.content_type == "image":
-            # Todo: make preview to see an image 
-            self.preview.swap_to_image(item_clip.content) 
+            if is_ocr_mode:
+                self.preview.swap_to_text(item_clip.ocr_text)
+            else:
+                self.preview.swap_to_image(item_clip.content)
         elif item_clip.content_type == "url":
             # TODO: check if is a file & read file content 
             self.preview.swap_to_text(", ".join(u.toString() for u in item_clip.content)) 
@@ -250,22 +260,23 @@ class AppLayout(QMainWindow):
         footer_layout.addStretch()
         
         # Footer buttons
-        # settings_btn = QPushButton()
-        # settings_btn.setIcon(QIcon(BUTTON_ICONS["settings"]))
-        # settings_btn.setObjectName("footerButton")
-        # settings_btn.setFixedSize(QSize(40,32))
-        # settings_btn.setIconSize(QSize(24,24))
-        # settings_btn.setCursor(Qt.PointingHandCursor)
-        # settings_btn.clicked.connect(self.open_settings)
-        # footer_layout.addWidget(settings_btn)
+        settings_btn = QPushButton()
+        settings_btn.setIcon(QIcon(BUTTON_ICONS["settings"]))
+        settings_btn.setObjectName("footerButton")
+        settings_btn.setFixedSize(QSize(40,32))
+        settings_btn.setIconSize(QSize(24,24))
+        settings_btn.setCursor(Qt.PointingHandCursor)
+        settings_btn.clicked.connect(self.open_settings)
+        footer_layout.addWidget(settings_btn)
         
         return footer
     
-    
+
     def open_settings(self):
         self.update_status("Opening settings...")
+        self.app_settings.exec()
     
-    
+
     def update_status(self, message):
         self.status_label.setText(message)
 
@@ -346,7 +357,6 @@ class SysTray:
         self.window.show()
         self.window.raise_()
         self.window.activateWindow()
-        print("Open clicked")
 
 
 if __name__ == "__main__":

@@ -51,14 +51,18 @@ class ColorDropdownButton(QPushButton):
         'MIDNIGHT': '#1a1a2e'
     }
     
-    def __init__(self, parent=None):
+    def __init__(self, btn_type="ICON", parent=None):
         super().__init__(parent)
+        self.btn_type = btn_type
         self.current_theme = 'DEFAULT'
         self.menu:QMenu = QMenu(self)
         
-        self.setIcon(QIcon(BUTTON_ICONS["color"]))
-        self.setFixedSize(QSize(40,32))
-        self.setIconSize(QSize(24,24))
+        if self.btn_type == "ICON":
+            self.setIcon(QIcon(BUTTON_ICONS["color"]))
+            self.setFixedSize(QSize(40,32))
+            self.setIconSize(QSize(24,24))
+        else:
+            self.setText(self.current_theme)
         self.setObjectName("headerButton")
         self.setCursor(Qt.PointingHandCursor)
         self._setup_menu()
@@ -119,6 +123,9 @@ class ColorDropdownButton(QPushButton):
         if self.current_theme != theme_name:
             self.current_theme = theme_name
             self.theme_changed.emit(theme_name)
+            if self.btn_type == "TEXT":
+                self.setText(theme_name)
+                self.current_theme = theme_name
     
     def get_current_theme(self):
         """Get the currently selected theme"""

@@ -35,7 +35,7 @@ def is_real_html(html: str) -> bool:
 class ClipboardItemStruct:
     """Represents one clipboard entry (text, image, url…)."""
 
-    def __init__(self, content, content_type):
+    def __init__(self, content, content_type, ocr_text: str=None):
         self.content = content
         self.content_type = content_type
         self.timestamp = datetime.now()
@@ -44,6 +44,15 @@ class ClipboardItemStruct:
         self.icon = self._make_icon()
         self.description = self._make_description()
         self.search_text = self._make_description(make_search=True)
+        self.ocr_text = ocr_text
+
+    def set_ocr_text(self, ocr_text: str):
+        # Return a new object with updated OCR text
+        return ClipboardItemStruct(
+            content=self.content,
+            content_type=self.content_type,
+            ocr_text=ocr_text
+        )
 
     def _make_icon(self):
         if self.content_type == "image":
@@ -103,5 +112,5 @@ class ClipboardItemStruct:
         return f"<ClipboardItem type={self.content_type} time={self.timestamp_str} descr={self.description}>"
 
     def __repr__(self):
-        return f"ClipboardItem(content_type={self.content_type!r}, timestamp={self.timestamp_str!r})"
+        return f"ClipboardItem(content_type={self.content_type!r}, descr={self.description!r}, ocr_text={self.ocr_text!r}, timestamp={self.timestamp_str!r})"
     

@@ -2,6 +2,22 @@ import os
 import sys
 
 
+def str_to_bool(value):
+    """
+    Converts a string (or other types) to boolean.
+    Returns True for "true", "1", "yes", "on"
+    Returns False for "false", "0", "no", "off"
+    If value is already bool, returns it.
+    """
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.strip().lower() in ("true", "1", "yes", "on")
+    if isinstance(value, (int, float)):
+        return value != 0
+    return False
+
+
 def resource_path(relative_path):
     """ Get absolute path to resource, works for PyInstaller """
     if hasattr(sys, "_MEIPASS"):

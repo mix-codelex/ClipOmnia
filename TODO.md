@@ -47,6 +47,7 @@
 
 * [-] Add Settings button:
   * [x] API inputs for OCR
-  * [ ] Use API to send content.type=image to OCR for clipboard
-  * [ ] Set API endpoints in settings
+  * [x] Use API to send content.type=image to OCR for clipboard
+  * [x] Set API endpoints in settings
+  * [x] Improve settings and make settings sending signal and read it in clipboard manager to set the api endpoint and if to perform ocr or not
   * [ ] Saved secrets that persist in settings & does not show on clipboard list
